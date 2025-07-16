@@ -8,6 +8,7 @@ namespace ApiEcommerce.Services
     {
         Task<IEnumerable<Cart>> GetAllAsync();
         Task<Cart> SaveOrUpdateAsync(Cart cart);
+        Task<IEnumerable<Cart>> GetByClientAsync(int clientId);
     }
 
     public class CartService : ICartService
@@ -23,6 +24,14 @@ namespace ApiEcommerce.Services
         {
             return await _context.Carts.ToListAsync();
         }
+        public async Task<IEnumerable<Cart>> GetByClientAsync(int clientId)
+        {
+            return await _context.Carts
+                .Include(c => c.ProductNav)
+                .Where(c => c.client == clientId && c.quantity > 0)
+                .ToListAsync();
+        }
+
 
         public async Task<Cart> SaveOrUpdateAsync(Cart cart)
         {

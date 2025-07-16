@@ -24,6 +24,13 @@ namespace ApiEcommerce.Controllers
             return Ok(carts);
         }
 
+        [HttpGet("list/{clientId}")]
+        public async Task<ActionResult<IEnumerable<Cart>>> GetByClient(int clientId)
+        {
+            var carts = await _cartService.GetByClientAsync(clientId);
+            return Ok(carts);
+        }
+
         [HttpPost("save")]
         public async Task<ActionResult<Cart>> SaveOrUpdate([FromBody] Cart cart)
         {
