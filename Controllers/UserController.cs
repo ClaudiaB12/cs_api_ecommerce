@@ -23,8 +23,25 @@ namespace ApiEcommerce.Controllers
             if (!result)
                 return Conflict(new { message = "El usuario ya existe" });
 
-                return Ok(new { message = "Usuario registrado exitosamente"});
+            return Ok(new { message = "Usuario registrado exitosamente" });
         }
 
+        [HttpGet("profile/{clientId}")]
+        public async Task<IActionResult> GetUserProfile(int clientId)
+        {
+            var user = await _userService.GetUserByIdAsync(clientId);
+
+            if (user == null)
+                return NotFound(new { message = "Usuario no encontrado" });
+
+            return Ok(new
+            {
+                user.id,
+                user.name,
+                user.email,
+                user.address,
+                user.phone
+            });
+        }
     }
-}    
+}

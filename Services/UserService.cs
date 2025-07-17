@@ -21,7 +21,7 @@ namespace ApiEcommerce.Services
 
             if (existingUser != null)
             {
-                return false; 
+                return false;
             }
 
             var newUser = new User
@@ -37,6 +37,11 @@ namespace ApiEcommerce.Services
             await _context.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<User?> GetUserByIdAsync(int clientId)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.id == clientId);
         }
     }
 }
